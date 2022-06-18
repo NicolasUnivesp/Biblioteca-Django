@@ -221,8 +221,7 @@ class LivroLista(GroupRequiredMixin, LoginRequiredMixin ,ListView):
     template_name = 'listas/formListarLivro.html'
 
 #view do Emprestimo
-class EmprestimoCreate(GroupRequiredMixin, LoginRequiredMixin,SuccessMessageMixin,CreateView):   
-    #EstoqueDisponivel =Livro.objects.filter(emprestimo__dataDevolucao__isnull=True).count()
+class EmprestimoCreate(GroupRequiredMixin, LoginRequiredMixin,SuccessMessageMixin,CreateView):       
     login_url = reverse_lazy('login')    
     group_required = [u"Administrador"]
     model = Emprestimo
@@ -238,10 +237,11 @@ class EmprestimoCreate(GroupRequiredMixin, LoginRequiredMixin,SuccessMessageMixi
         return context
     
     def pegaEstoqueLivro(request):
-        if request.is_ajax and request.method == "GET":
+        if request.is_ajax and request.method == "GET":            
             livro = request.GET.get("livroid",0) 
-            todos_livros = Livro.objects.filter(livroID = livro)
-            estoquelivro = todos_livros.filter(emprestimo__dataDevolucao__isnull=True).count()
+            Qtde_livros = Livro.objects.filter(livroID = livro).filter(is_active = True)[0].quantidade
+            Qtde_Disponivel = Emprestimo.objects.filter(livro__livroID = livro).filter(dataDevolucao__isnull=True).count()            
+            estoquelivro = Qtde_livros - Qtde_Disponivel
             return JsonResponse({"qtdeestoque":estoquelivro}, status = 200)
         return JsonResponse({}, status = 400)
 
