@@ -166,7 +166,7 @@ class Livro(models.Model):
 
 class Reserva(models.Model):
     reservaID = models.BigAutoField(primary_key=True)
-    livro = models.ForeignKey('Livro', on_delete=models.RESTRICT, null=True,verbose_name="Livro",help_text="Selecione o livro a reservar")
+    livro = models.ForeignKey('Livro', on_delete=models.RESTRICT, null=True,help_text="Selecione o livro a reservar")
     nomeSolicitante = models.ForeignKey(Usuario, on_delete=models.SET_NULL, null=True, blank=True,verbose_name="Usuário",help_text="Selecione o nome do usuário")
     is_active = models.BooleanField(default=True,verbose_name= '', help_text="Marque para Ativar/Desmarque para Cancelar a reserva")    
     dataReserva = models.DateField(default = date.today, verbose_name="Data da Reserva",help_text="Informe a data da reserva do livro")
@@ -190,7 +190,7 @@ class Emprestimo(models.Model):
     )
     emprestimoID = models.UUIDField(primary_key=True, default=uuid.uuid4,
                           help_text="ID particular para esse livro")
-    livro = models.ForeignKey('Livro', on_delete=models.RESTRICT, null=True,verbose_name="Livro",help_text="Selecione o livro a emprestar")
+    livro = models.ForeignKey('Livro', on_delete=models.RESTRICT, null=True,help_text="Selecione o livro a emprestar")
     marca = models.CharField(max_length=200)
     usuario = models.ForeignKey(Usuario, on_delete=models.SET_NULL, null=True, blank=True,verbose_name="Usuário",help_text="Selecione o nome do usuário")
     dataEmprestimo = models.DateField(default = date.today, verbose_name="Data do Empréstimo",help_text="Informe a data de empréstimo do livro")
