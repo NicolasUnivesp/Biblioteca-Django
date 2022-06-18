@@ -222,7 +222,7 @@ class LivroLista(GroupRequiredMixin, LoginRequiredMixin ,ListView):
 
 #view do Emprestimo
 class EmprestimoCreate(GroupRequiredMixin, LoginRequiredMixin,SuccessMessageMixin,CreateView):   
-    EstoqueDisponivel =Livro.objects.filter(emprestimo__dataDevolucao__isnull=True).count()
+    #EstoqueDisponivel =Livro.objects.filter(emprestimo__dataDevolucao__isnull=True).count()
     login_url = reverse_lazy('login')    
     group_required = [u"Administrador"]
     model = Emprestimo
